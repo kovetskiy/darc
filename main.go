@@ -34,6 +34,9 @@ func main() {
 	}
 
 	url := strings.TrimSuffix(args["--url"].(string), "/") + "/"
+	if !strings.Contains(url, "://") {
+		log.Fatalf("URL should contain a scheme")
+	}
 
 	filename, ok := args["<filename>"].(string)
 	if !ok {
