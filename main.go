@@ -21,9 +21,10 @@ Usage:
   darc --version
 
 Options:
-  -u --url <url>  Upload file to specified server. [default: https://dead.archi/]
-  -h --help       Show this screen.
-  --version       Show version.
+  -u --url <url>    Upload file to specified server. [default: https://dead.archi/]
+  -d --auto-delete  Automatically delete after downloading.
+  -h --help         Show this screen.
+  --version         Show version.
 `
 )
 
@@ -45,6 +46,13 @@ func main() {
 
 	buffer := bytes.NewBuffer(nil)
 	writer := multipart.NewWriter(buffer)
+
+	if args["--auto-delete"].(bool) {
+		err = writer.WriteField("auto_delete", "1")
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
 
 	part, err := writer.CreateFormFile("file", filename)
 	if err != nil {
