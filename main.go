@@ -23,6 +23,7 @@ Usage:
 Options:
   -u --url <url>    Upload file to specified server. [default: https://dead.archi/]
   -d --auto-delete  Automatically delete after downloading.
+  -l --download     Send headers to download file.
   -h --help         Show this screen.
   --version         Show version.
 `
@@ -49,6 +50,13 @@ func main() {
 
 	if args["--auto-delete"].(bool) {
 		err = writer.WriteField("auto_delete", "1")
+		if err != nil {
+			log.Fatalln(err)
+		}
+	}
+
+	if args["--download"].(bool) {
+		err = writer.WriteField("header_download", "1")
 		if err != nil {
 			log.Fatalln(err)
 		}
