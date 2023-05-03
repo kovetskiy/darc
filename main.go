@@ -1,15 +1,18 @@
 package main
 
-import "bytes"
-import "fmt"
-import "github.com/docopt/docopt-go"
-import "io"
-import "io/ioutil"
-import "log"
-import "mime/multipart"
-import "net/http"
-import "os"
-import "strings"
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"io/ioutil"
+	"log"
+	"mime/multipart"
+	"net/http"
+	"os"
+	"strings"
+
+	"github.com/docopt/docopt-go"
+)
 
 var (
 	version = "[manual build]"
@@ -62,7 +65,12 @@ func main() {
 		}
 	}
 
-	part, err := writer.CreateFormFile("file", filename)
+	announcedName := filename
+	if filename == "/dev/stdin" {
+		announcedName = "stdin.txt"
+	}
+
+	part, err := writer.CreateFormFile("file", announcedName)
 	if err != nil {
 		log.Fatalln(err)
 	}
